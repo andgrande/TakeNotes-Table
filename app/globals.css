@@ -10,9 +10,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
+    /* --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0; */
   }
 }
 
@@ -26,8 +26,52 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+.test {
+  animation-name: blinking;
+  animation-duration: 0.5s;
+}
+
+/* .slide {
+  animation-name: sliding;
+  animation-duration: 0.5s;
+} */
+
+@keyframes blinking {
+  0%   {opacity: 1}
+  20%  {opacity: 0}
+  40%  {opacity: 1}
+  60% {opacity: 0}
+  80%  {opacity: 1}
+  100% {opacity: 0} 
+}
+
+@keyframes sliding {
+  0% {
+    transform: translateX(100%)
+  }
+  100% {
+    transform: translateX(0)
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  .truncate-after-n-lines {
+    --lh: 1.4rem;
+    line-height: var(--lh);
+
+    --max-lines: 4;
+    max-height: calc(var(--lh) * var(--max-lines));
+    height: "112px";
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* text-wrap: pretty; */
+  }
+
+
+  
+
 }
