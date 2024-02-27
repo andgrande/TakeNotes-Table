@@ -41,7 +41,7 @@ export default function TableOfNotes({ content, copyReference }: any) {
   }
 
   return (
-    <div className="mt-10">
+    <div className="w-full mt-10">
       <table className="table-auto w-full bg-slate-100 border-separate border-spacing-0.25 rounded-lg border-slate-200 text-center">
         <thead className="">
           <tr className="">
