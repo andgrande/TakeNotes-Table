@@ -29,6 +29,7 @@ export default function Home() {
   async function getDataThere() {
     const response = await fetch('/api/', {
       method: 'GET',
+      cache: 'no-store',
       // next: { revalidate: 99999}
     })
 
