@@ -2,7 +2,7 @@
 import { query as q } from 'faunadb';
 import faunadb from 'faunadb';
 
-// export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 
 const faunaClient = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET || "",
