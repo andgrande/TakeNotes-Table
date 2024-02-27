@@ -7,11 +7,6 @@ import TableOfNotes from "./TableOfNotes";
 
 import { TbCircles } from "react-icons/tb";
 
-export const metadata: Metadata = {
-  title: "My References",
-  description: "References taken during my researches"
-}
-
 interface dataInt {
   data: {
     noteQuote: string,
