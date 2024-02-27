@@ -9,20 +9,9 @@ const faunaClient = new faunadb.Client({
 });
 
 export async function GET() {
-  console.log(`oi`)
-  // const res = await fetch('https://data.mongodb-api.com/', {
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'API-Key': process.env.DATA_API_KEY,
-  //   },
-  // })
-  // const data = await res.json()
-
   // const document_query = fql`
   //     myReferences.all()
-  // `;
-
-    
+  // `;  
 
   let response: any = await faunaClient.query(
 
