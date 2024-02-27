@@ -1,10 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
+import type { Metadata } from 'next'
 import { useEffect, useState } from "react";
 import ListOfNotes from "./ListOfNotes";
 import TableOfNotes from "./TableOfNotes";
 
 import { TbCircles } from "react-icons/tb";
+
+export const metadata: Metadata = {
+  title: "My References",
+  description: "References taken during my researches"
+}
 
 interface dataInt {
   data: {
@@ -63,7 +69,7 @@ export default function Home() {
 
   
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-10">
+    <main className="flex min-h-screen flex-col items-center justify-stretch p-10">
       <button hidden={!toastOpen} onClick={updateToastStatus} type="button" className="fixed right-4 top-4 z-50 rounded-md px-4 py-2 font-thin animate-sliding transition text-white bg-green-150 hover:bg-green-250 ease-out">
           <div className="flex items-center space-x-2">
               <span className="text-3xl"><i className="bx bx-check"></i></span>
