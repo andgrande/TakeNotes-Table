@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${karla.className}`}>
-        {/* <Suspense fallback={<Loading />}>{children}</Suspense> */
+        {/* <Suspense fallback={<Loading />}>{children}</Suspense> */}
         {children}
       </body>
     </html>
