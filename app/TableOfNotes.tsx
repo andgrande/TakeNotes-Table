@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
+import { TbLayersOff } from "react-icons/tb";
 
 import { TbCopy } from "react-icons/tb";
 
@@ -21,7 +22,6 @@ interface dataInt {
 export default function TableOfNotes({ content, copyReference }: any) {
   const notes: dataInt[] | undefined = content;
   let timeout: any;
-  // const [ toastOpen , setToastOpen ] = useState<boolean>(false);
 
   if (notes == undefined) return;
 
@@ -39,6 +39,13 @@ export default function TableOfNotes({ content, copyReference }: any) {
   const handleCopyReference = (data: any) => {
     copyReference(data)
   }
+
+  if (notes?.length == 0) return (
+    <div className="flex flex-row w-52 mt-32 text-teal-800 text-lg font-normal items-center justify-evenly">
+      <TbLayersOff />
+      <p>No data saved</p>
+    </div>
+  );
 
   return (
     <div className="w-full mt-10">

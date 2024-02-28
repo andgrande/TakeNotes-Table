@@ -25,6 +25,14 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+/* 
+html {
+  font-family: var(--font-karla);
+}
+
+h1 {
+  font-family: var(--font-inter);
+} */
 
 .test {
   animation-name: blinking;

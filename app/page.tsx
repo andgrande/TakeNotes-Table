@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import type { Metadata } from 'next'
 import { useEffect, useState } from "react";
+import { inter, karla } from './fonts';
 import ListOfNotes from "./ListOfNotes";
 import TableOfNotes from "./TableOfNotes";
 
@@ -31,7 +31,6 @@ export default function Home() {
     const response = await fetch('/api/', {
       method: 'GET',
       cache: 'no-store',
-      // next: { revalidate: 99999}
     })
 
     return response.json();
@@ -39,7 +38,6 @@ export default function Home() {
 
   const updateNotes = async () => {
     const response = await getDataThere();
-    // const { data } = response;
     setNotes(response);
   }
 
@@ -72,18 +70,14 @@ export default function Home() {
           </div>
       </button>
 
-      <div className="">
-        <h1 className="uppercase font-semibold text-3xl">References</h1>
+      <div>
+        <h1 className={`uppercase font-semibold text-4xl`}>References</h1>
       </div>
-
-      {/* <button type="button" className="h-3 w-12 mb-6 border border-yellow-700" onClick={() => updateNotes()}>
-        GET
-      </button> */}
 
       {
         !!notes 
         ? <TableOfNotes content={notes} copyReference={copyReference} />
-        : <div className="flex flex-row w-52 text-teal-800 text-lg font-normal items-center justify-between">
+        : <div className="flex flex-row w-52 mt-32 text-teal-800 text-lg font-normal items-center justify-between">
             <TbCircles className="animate-spin" />
             <p>Loading references</p>
           </div>
