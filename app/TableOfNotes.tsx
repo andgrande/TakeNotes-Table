@@ -52,7 +52,7 @@ export default function TableOfNotes({ content, copyReference }: any) {
       <table className="table-auto w-full bg-slate-100 border-separate border-spacing-0.25 rounded-lg border-slate-200 text-center">
         <thead className="">
           <tr className="">
-            <th className="text-center">ID</th>
+            {/* <th className="text-center">ID</th> */}
             <th className="w-1/5 px-3">Quote</th>
             <th>Page</th>
             <th className="w-2/12">Author</th>
@@ -70,7 +70,7 @@ export default function TableOfNotes({ content, copyReference }: any) {
           <tr key={i.data.noteQuote} 
             className="border-2 h-28 max-h-116px border-black rounded-lg truncate-after-n-lines"
           >
-            <td className="border border-slate-300 px-2 text-center">##</td>
+            {/* <td className="border border-slate-300 px-2 text-center">##</td> */}
             <td id={i.ts.toString()} onClick={() => copyContent(i.data.noteQuote, i.ts.toString())}
             className="border border-slate-300 px-2 w-1/5 min-w-1/5">
               <p className="focus:border-sky-500 truncate-after-n-lines">{i.data.noteQuote}</p>
