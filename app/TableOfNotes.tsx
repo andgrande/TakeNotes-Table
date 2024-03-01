@@ -1,39 +1,23 @@
 import Link from "next/link";
-import { useState } from "react";
+import { IDTOData } from './_lib/dtos/IReferenceDataDTO';
 import { TbLayersOff, TbTrashX } from "react-icons/tb";
 
 import { TbCopy } from "react-icons/tb";
 
-interface dataInt {
-  data: {
-    noteQuote: string,
-    notePage: string,
-    noteAuthor: string,
-    noteYear: string,
-    noteTitle: string,
-    notePublisher: string,
-    noteLink: string,
-    notePaper: string
-  },
-  id: number,
-  ts: number,
-  date: string | undefined,
-}
-
-export default function TableOfNotes({ content, copyReference }: any) {
-  const notes: dataInt[] | undefined = content;
+export default function TableOfNotes({ content, copyReference, handleDelete }: any) {
+  const notes: IDTOData[] | undefined = content;
   let timeout: any;
 
   if (notes == undefined) return;
 
-  const handleDeleteReference = async(id: number) => {
+  const handleDeleteReference = async(id: string) => {
     try {
       const res = await fetch("/api", {
         method: "DELETE",
         body: JSON.stringify({ id })
       })
 
-      console.log(res.json())
+      handleDelete(id)
     } catch (er) {
       console.log(er)
     }
@@ -81,7 +65,7 @@ export default function TableOfNotes({ content, copyReference }: any) {
         </thead>
         <tbody className="bg-slate-300">
           {notes?.map(i => (
-          <tr key={i.data.noteQuote} 
+          <tr key={i.id} 
             className="border-2 h-28 max-h-116px border-black rounded-lg truncate-after-n-lines
             *:border *:border-slate-300 *:px-2 *:h-116px
             "

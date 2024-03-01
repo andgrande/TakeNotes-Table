@@ -4,27 +4,11 @@ import { useEffect, useState } from "react";
 import { inter, karla } from './fonts';
 import ListOfNotes from "./ListOfNotes";
 import TableOfNotes from "./TableOfNotes";
-
+import { IDTOData } from './_lib/dtos/IReferenceDataDTO';
 import { TbCircles } from "react-icons/tb";
 
-interface dataInt {
-  data: {
-    noteQuote: string,
-    notePage: string,
-    noteAuthor: string,
-    noteYear: string,
-    noteTitle: string,
-    notePublisher: string,
-    noteLink: string,
-    notePaper: string
-  },
-  ts: number,
-  date: string | undefined,
-  id: number
-}
-
 export default function Home() {
-  const [ notes, setNotes ] = useState<dataInt[] | undefined>(undefined);
+  const [ notes, setNotes ] = useState<IDTOData[] | undefined>(undefined);
   const [ toastOpen , setToastOpen ] = useState<boolean>(false);
 
   async function getDataThere() {
@@ -57,6 +41,10 @@ export default function Home() {
     setToastOpen(true);
     setTimeout(() => setToastOpen(false), 3500);
   }
+
+  const handleDelete = (id: string) => {
+    setNotes(previousState => previousState?.filter(i => i.id != id))
+  }
   
   return (
     <main className="flex min-h-screen flex-col items-center justify-stretch p-10">
@@ -73,7 +61,7 @@ export default function Home() {
 
       {
         !!notes 
-        ? <TableOfNotes content={notes} copyReference={copyReference} />
+        ? <TableOfNotes content={notes} copyReference={copyReference} handleDelete={handleDelete} />
         : <div className="flex flex-row w-52 mt-32 text-teal-800 text-lg font-normal items-center justify-between">
             <TbCircles className="animate-spin" />
             <p>Loading references</p>
