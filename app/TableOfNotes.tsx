@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
-import { TbLayersOff } from "react-icons/tb";
+import { TbLayersOff, TbTrashX } from "react-icons/tb";
 
 import { TbCopy } from "react-icons/tb";
 
@@ -15,6 +15,7 @@ interface dataInt {
     noteLink: string,
     notePaper: string
   },
+  id: number,
   ts: number,
   date: string | undefined,
 }
@@ -24,6 +25,20 @@ export default function TableOfNotes({ content, copyReference }: any) {
   let timeout: any;
 
   if (notes == undefined) return;
+
+  const handleDeleteReference = async(id: number) => {
+    try {
+      const res = await fetch("/api", {
+        method: "DELETE",
+        body: JSON.stringify({ id })
+      })
+
+      console.log(res.json())
+    } catch (er) {
+      console.log(er)
+    }
+    
+  }
 
   const copyContent = (fieldValue: string | undefined, id?: string | undefined) => {
     if (fieldValue == undefined || id == undefined) return;
@@ -50,8 +65,8 @@ export default function TableOfNotes({ content, copyReference }: any) {
   return (
     <div className="w-full mt-10">
       <table className="table-auto w-full bg-slate-100 border-separate border-spacing-0.25 rounded-lg border-slate-200 text-center">
-        <thead className="">
-          <tr className="">
+        <thead >
+          <tr >
             {/* <th className="text-center">ID</th> */}
             <th className="w-1/5 px-3">Quote</th>
             <th>Page</th>
@@ -68,27 +83,29 @@ export default function TableOfNotes({ content, copyReference }: any) {
         <tbody className="bg-slate-300">
           {notes?.map(i => (
           <tr key={i.data.noteQuote} 
-            className="border-2 h-28 max-h-116px border-black rounded-lg truncate-after-n-lines"
+            className="border-2 h-28 max-h-116px border-black rounded-lg truncate-after-n-lines
+            *:border *:border-slate-300 *:px-2 *:h-116px
+            "
           >
             {/* <td className="border border-slate-300 px-2 text-center">##</td> */}
             <td id={i.ts.toString()} onClick={() => copyContent(i.data.noteQuote, i.ts.toString())}
-            className="border border-slate-300 px-2 w-1/5 min-w-1/5">
+              className="w-1/5 min-w-1/5">
               <p className="focus:border-sky-500 truncate-after-n-lines">{i.data.noteQuote}</p>
             </td>
-            <td id={i.ts.toString() + 'notePage'} onClick={() => copyContent(i.data.notePage, i.ts.toString() + 'notePage')} className="border border-slate-300 px-10">{i.data.notePage}</td>
-            <td id={i.ts.toString() + 'noteAuthor'}  onClick={() => copyContent(i.data.noteAuthor, i.ts.toString() + 'noteAuthor')} className="border border-slate-300 px-2 w-2/12">
+            <td id={i.ts.toString() + 'notePage'} onClick={() => copyContent(i.data.notePage, i.ts.toString() + 'notePage')} >{i.data.notePage}</td>
+            <td id={i.ts.toString() + 'noteAuthor'}  onClick={() => copyContent(i.data.noteAuthor, i.ts.toString() + 'noteAuthor')} className=" w-2/12">
               <p className="truncate-after-n-lines">{i.data.noteAuthor}</p>
             </td> 
-            <td id={i.ts.toString() + 'noteYear'} onClick={() => copyContent(i.data.noteYear, i.ts.toString() + 'noteYear')} className="border border-slate-300 px-10">{i.data.noteYear}</td>
-            <td id={i.ts.toString() + 'noteTitle'} onClick={() => copyContent(i.data.noteTitle, i.ts.toString() + 'noteTitle')} className="border border-slate-300 px-2 w-1/5 h-116px *:hover:overflow-visible">
+            <td id={i.ts.toString() + 'noteYear'} onClick={() => copyContent(i.data.noteYear, i.ts.toString() + 'noteYear')} >{i.data.noteYear}</td>
+            <td id={i.ts.toString() + 'noteTitle'} onClick={() => copyContent(i.data.noteTitle, i.ts.toString() + 'noteTitle')} className=" w-1/5 h-116px *:hover:overflow-visible">
               <p className="truncate-after-n-lines">{i.data.noteTitle}</p>
             </td>
-            <td id={i.ts.toString() + 'notePublisher'} onClick={() => copyContent(i.data.notePublisher, i.ts.toString() + 'notePublisher')} className="border border-slate-300 px-2 max-w-1/12 *:hover:overflow-visible ">
+            <td id={i.ts.toString() + 'notePublisher'} onClick={() => copyContent(i.data.notePublisher, i.ts.toString() + 'notePublisher')} className=" max-w-1/12 *:hover:overflow-visible ">
               <p className="truncate-after-n-lines">
                 {i.data.notePublisher}
               </p>
             </td>
-            <td id={i.ts.toString() + 'noteLink'} onClick={() => copyContent(i.data.noteLink, i.ts.toString() + 'noteLink')} className="border border-slate-300 px-2 w-1/12 max-w-48 hover:relative hover:w-full transition-all duration-500 ease-in-out">
+            <td id={i.ts.toString() + 'noteLink'} onClick={() => copyContent(i.data.noteLink, i.ts.toString() + 'noteLink')} className=" w-1/12 max-w-48 hover:relative hover:w-full transition-all duration-500 ease-in-out">
               {/* <a className="truncate-after-n-lines ">
                 {i.data.noteLink}
               </a> */}
@@ -96,9 +113,10 @@ export default function TableOfNotes({ content, copyReference }: any) {
                 <p className="truncate-after-n-lines">{i.data.noteLink}</p>
               </Link>
             </td>
-            <td id={i.ts.toString() + 'notePaper'} onClick={() => copyContent(i.data.notePaper, i.ts.toString() + 'notePaper')} className="border border-slate-300 px-2">{i.data.notePaper}</td>
-            <td id={i.ts.toString() + 'date'} onClick={() => copyContent(i.date, i.ts.toString())} className="border border-slate-300 px-2">{i.date}</td>
-            <td className="w-14 px-4">
+            <td id={i.ts.toString() + 'notePaper'} onClick={() => copyContent(i.data.notePaper, i.ts.toString() + 'notePaper')} >{i.data.notePaper}</td>
+            <td id={i.ts.toString() + 'date'} onClick={() => copyContent(i.date, i.ts.toString())} >{i.date}</td>
+            <td className="flex flex-col justify-center items-center space-y-5">
+              <TbTrashX onDoubleClick={() => handleDeleteReference(i.id)} size={20}/>
               <TbCopy onClick={() => handleCopyReference(i.data)} size={20} />
             </td>
           </tr>

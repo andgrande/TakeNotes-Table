@@ -20,12 +20,12 @@ interface dataInt {
   },
   ts: number,
   date: string | undefined,
+  id: number
 }
 
 export default function Home() {
   const [ notes, setNotes ] = useState<dataInt[] | undefined>(undefined);
   const [ toastOpen , setToastOpen ] = useState<boolean>(false);
-  let timeout: any;
 
   async function getDataThere() {
     const response = await fetch('/api/', {
@@ -54,12 +54,9 @@ export default function Home() {
     let reference = `${data.noteAuthor} (${data.notePage}) - ${data.noteYear} - ${data.noteLink}`
     navigator.clipboard.writeText(reference);
 
-
     setToastOpen(true);
     setTimeout(() => setToastOpen(false), 3500);
-
   }
-
   
   return (
     <main className="flex min-h-screen flex-col items-center justify-stretch p-10">
