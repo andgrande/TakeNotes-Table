@@ -34,7 +34,7 @@ h1 {
   font-family: var(--font-inter);
 } */
 
-.test {
+.blinkElement {
   animation-name: blinking;
   animation-duration: 0.5s;
 }

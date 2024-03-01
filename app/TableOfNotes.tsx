@@ -37,7 +37,6 @@ export default function TableOfNotes({ content, copyReference }: any) {
     } catch (er) {
       console.log(er)
     }
-    
   }
 
   const copyContent = (fieldValue: string | undefined, id?: string | undefined) => {
@@ -45,10 +44,10 @@ export default function TableOfNotes({ content, copyReference }: any) {
     navigator.clipboard.writeText(fieldValue);
 
     let el = document.getElementById(id);
-    el?.classList.add("test")
+    el?.classList.add("blinkElement")
 
     clearTimeout(timeout);
-    timeout = setTimeout(() => el?.classList.remove("test"), 750)
+    timeout = setTimeout(() => el?.classList.remove("blinkElement"), 750)
   }
 
   const handleCopyReference = (data: any) => {
@@ -114,10 +113,10 @@ export default function TableOfNotes({ content, copyReference }: any) {
               </Link>
             </td>
             <td id={i.ts.toString() + 'notePaper'} onClick={() => copyContent(i.data.notePaper, i.ts.toString() + 'notePaper')} >{i.data.notePaper}</td>
-            <td id={i.ts.toString() + 'date'} onClick={() => copyContent(i.date, i.ts.toString())} >{i.date}</td>
-            <td className="flex flex-col justify-center items-center space-y-5">
-              <TbTrashX onDoubleClick={() => handleDeleteReference(i.id)} size={20}/>
-              <TbCopy onClick={() => handleCopyReference(i.data)} size={20} />
+            <td id={i.ts.toString() + 'date'} onClick={() => copyContent(i.date, i.ts.toString() + 'date')} >{i.date}</td>
+            <td className="flex flex-col justify-center items-center space-y-5 *:size-6  *:transition-all">
+              <TbTrashX onDoubleClick={() => handleDeleteReference(i.id)} className="hover:text-gray-500 active:text-white"/>
+              <TbCopy onClick={() => handleCopyReference(i.data)} className="hover:text-gray-500 active:text-white" />
             </td>
           </tr>
         ))}

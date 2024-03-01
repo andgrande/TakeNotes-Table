@@ -12,7 +12,6 @@ const faunaClient = new faunadb.Client({
 });
 
 export async function GET() {
-  console.log("oi")
   // const document_query = fql`
   //     myReferences.all()
   // `;  
@@ -58,5 +57,5 @@ export async function DELETE(request: Request) {
     )
   )
 
-  return Response.json({foi: "fois"});
+  return Response.json({ response });
 }
