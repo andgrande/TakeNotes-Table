@@ -78,9 +78,9 @@ export default function SidePanelModal({ handleAddOnPage }: any) {
             <InputField typeTag="text" nameTag="note-link" placeholderTag="Link" />
             <InputField typeTag="text" nameTag="note-paper" placeholderTag="Paper" />
 
-            <button id="btn-submit" type="submit"
+            <button id="btn-submit" type="submit" aria-label="Submit new Note"
               className='border border-pale-800 w-10/12 h-10 rounded self-center
-              text-lg text-pale-200 bg-pale-800 hover:bg-pale-900 focus:bg-pale-900 active:bg-pale-700 transition'
+              text-lg text-pale-200 bg-pale-800 hover:bg-pale-700 hover:text-white focus:bg-pale-800 active:bg-pale-700 transition'
             >Submit</button>
           </form>
 

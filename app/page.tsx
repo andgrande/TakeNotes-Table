@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import TableOfNotes from "./components/TableOfNotes";
 import { IDTOData } from './_lib/dtos/IReferenceDataDTO';
-import { TbCircles } from "react-icons/tb";
+import { TbCircles, TbSquareRoundedPlus } from "react-icons/tb";
 import SidePanelModal from "./components/SidePanelModal";
 
 export default function Home() {
@@ -66,11 +66,15 @@ export default function Home() {
           </div>
       </button>
 
-      <div>
+      <div className="flex row items-center">
         <h1 className={`uppercase font-semibold text-4xl`}>References</h1>
+
+        
+        <button className="absolute right-10 text-4xl hover:text-gray-400 active:text-white transition-all" onClick={() => handleShowModal()} >
+          <TbSquareRoundedPlus />
+        </button>
       </div>
 
-      <button onClick={() => handleShowModal()}>Click</button>
       <SidePanelModal handleAddOnPage={handleAddOnPage} />
 
       {
