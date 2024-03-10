@@ -27,6 +27,7 @@ const config: Config = {
       },
       height: {
         "116px": "116px",
+        "98%": "98%",
       },
       animation: {
         "blinking": "blinking 2s",
@@ -39,7 +40,17 @@ const config: Config = {
         "teal-450": "#62f1e3",
         "teal-550": "#44ecd9",
         "green-150": "#28e5b0",
-        "green-250": "#1ed29f"
+        "green-250": "#1ed29f",
+        'white-0': 'rgba(255,255,255)',
+        'white-100': 'rgba(255,255,255,0.1)',
+        'white-900': 'rgba(255,255,255,0.9)',
+        'pale-200': 'rgb(242, 239, 229)',
+        'pale-300': 'rgb(227, 225, 217)',
+        'pale-500': 'rgb(199, 200, 204)',
+        'pale-600': 'rgb(180, 180, 184)',
+        'pale-700': 'rgb(92, 131, 116)',
+        'pale-800': 'rgb(27, 66, 66)',
+        'pale-900': 'rgb(9, 38, 53)',
       }
     },
   },

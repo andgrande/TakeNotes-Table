@@ -1,17 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { useEffect, useState } from "react";
-import { inter, karla } from './fonts';
-import ListOfNotes from "./ListOfNotes";
-import TableOfNotes from "./TableOfNotes";
+import TableOfNotes from "./components/TableOfNotes";
 import { IDTOData } from './_lib/dtos/IReferenceDataDTO';
 import { TbCircles } from "react-icons/tb";
+import SidePanelModal from "./components/SidePanelModal";
 
 export default function Home() {
-  const [ notes, setNotes ] = useState<IDTOData[] | undefined>(undefined);
+  const [ notes, setNotes ] = useState<IDTOData[] | []>([]);
   const [ toastOpen , setToastOpen ] = useState<boolean>(false);
 
-  async function getDataThere() {
+  async function handleFetchReferences() {
     const response = await fetch('/api/', {
       method: 'GET',
       cache: 'no-store',
@@ -21,7 +20,7 @@ export default function Home() {
   }
 
   const updateNotes = async () => {
-    const response = await getDataThere();
+    const response = await handleFetchReferences();
     setNotes(response);
   }
 
@@ -42,8 +41,20 @@ export default function Home() {
     setTimeout(() => setToastOpen(false), 3500);
   }
 
-  const handleDelete = (id: string) => {
+  const handleDeleteFromPage = (id: string) => {
     setNotes(previousState => previousState?.filter(i => i.id != id))
+  }
+
+  const handleAddOnPage = (newReferenceToScreen: IDTOData) => {
+    setNotes([
+      ...notes,
+      {...newReferenceToScreen},
+    ]);
+  }
+
+  const handleShowModal = () => {
+    const modal: HTMLDialogElement | null = document.querySelector("#sidePanelModal");
+    modal?.showModal();
   }
   
   return (
@@ -59,9 +70,12 @@ export default function Home() {
         <h1 className={`uppercase font-semibold text-4xl`}>References</h1>
       </div>
 
+      <button onClick={() => handleShowModal()}>Click</button>
+      <SidePanelModal handleAddOnPage={handleAddOnPage} />
+
       {
         !!notes 
-        ? <TableOfNotes content={notes} copyReference={copyReference} handleDelete={handleDelete} />
+        ? <TableOfNotes content={notes} copyReference={copyReference} handleDeleteFromPage={handleDeleteFromPage} />
         : <div className="flex flex-row w-52 mt-32 text-teal-800 text-lg font-normal items-center justify-between">
             <TbCircles className="animate-spin" />
             <p>Loading references</p>

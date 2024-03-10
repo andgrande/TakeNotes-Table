@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { IDTOData } from './_lib/dtos/IReferenceDataDTO';
+import { IDTOData } from '../_lib/dtos/IReferenceDataDTO';
 import { TbLayersOff, TbTrashX } from "react-icons/tb";
 
 import { TbCopy } from "react-icons/tb";
 
-export default function TableOfNotes({ content, copyReference, handleDelete }: any) {
+export default function TableOfNotes({ content, copyReference, handleDeleteFromPage }: any) {
   const notes: IDTOData[] | undefined = content;
   let timeout: any;
 
@@ -17,7 +17,7 @@ export default function TableOfNotes({ content, copyReference, handleDelete }: a
         body: JSON.stringify({ id })
       })
 
-      handleDelete(id)
+      handleDeleteFromPage(id)
     } catch (er) {
       console.log(er)
     }
@@ -99,8 +99,8 @@ export default function TableOfNotes({ content, copyReference, handleDelete }: a
             <td id={i.ts.toString() + 'notePaper'} onClick={() => copyContent(i.data.notePaper, i.ts.toString() + 'notePaper')} >{i.data.notePaper}</td>
             <td id={i.ts.toString() + 'date'} onClick={() => copyContent(i.date, i.ts.toString() + 'date')} >{i.date}</td>
             <td className="flex flex-col justify-center items-center space-y-5 *:size-6  *:transition-all">
-              <TbTrashX onDoubleClick={() => handleDeleteReference(i.id)} className="hover:text-gray-500 active:text-white"/>
-              <TbCopy onClick={() => handleCopyReference(i.data)} className="hover:text-gray-500 active:text-white" />
+              <TbTrashX onDoubleClick={() => handleDeleteReference(i.id)} className="hover:text-gray-500 active:text-white" aria-label="Double-click to delete" />
+              <TbCopy onClick={() => handleCopyReference(i.data)} className="hover:text-gray-500 active:text-white" aria-label="Click to copy Reference" />
             </td>
           </tr>
         ))}
