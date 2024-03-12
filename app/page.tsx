@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import TableOfNotes from "./components/TableOfNotes";
 import { IDTOData } from './_lib/dtos/IReferenceDataDTO';
-import { TbCircles, TbSquareRoundedPlus } from "react-icons/tb";
+import { TbCircles, TbRefresh, TbSquareRoundedPlus } from "react-icons/tb";
 import SidePanelModal from "./components/SidePanelModal";
 
 export default function Home() {
@@ -19,13 +19,13 @@ export default function Home() {
     return response.json();
   }
 
-  const updateNotes = async () => {
+  const handleUpdateNotes = async () => {
     const response = await handleFetchReferences();
     setNotes(response);
   }
 
   useEffect(() => {
-    updateNotes()
+    handleUpdateNotes()
   }, []);  
 
   const updateToastStatus = () => {
@@ -69,10 +69,16 @@ export default function Home() {
       <div className="flex row items-center">
         <h1 className={`uppercase font-semibold text-4xl`}>References</h1>
 
+        <div className="absolute right-10 text-4xl" >
+          <button className="hover:text-gray-400 active:text-white transition-all mr-4" onClick={() => handleUpdateNotes()} >
+            <TbRefresh />
+          </button>
+
+          <button className="hover:text-gray-400 active:text-white transition-all" onClick={() => handleShowModal()} >
+            <TbSquareRoundedPlus />
+          </button>
+        </div>
         
-        <button className="absolute right-10 text-4xl hover:text-gray-400 active:text-white transition-all" onClick={() => handleShowModal()} >
-          <TbSquareRoundedPlus />
-        </button>
       </div>
 
       <SidePanelModal handleAddOnPage={handleAddOnPage} />

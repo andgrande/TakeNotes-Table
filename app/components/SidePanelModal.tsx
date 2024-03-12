@@ -54,7 +54,7 @@ export default function SidePanelModal({ handleAddOnPage }: any) {
           >
             <button
               onClick={() => handleResetModalFields()}
-              className='text-lg hover:text-pale-800 active:text-pale-600'
+              className='text-lg hover:text-pale-800 active:text-pale-600 outline-none'
             >
               <TbRefresh />
             </button>
