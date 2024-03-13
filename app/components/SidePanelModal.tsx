@@ -10,7 +10,27 @@ export default function SidePanelModal({ handleAddOnPage }: any) {
   }
 
   const handleResetModalFields = () => {
+    const element = document.getElementById("note-quote") as HTMLInputElement;
+    if (element) element.value = "";
+    element.focus();
+  }
 
+  const handleEnterKey = () => {
+    var formElement = document.getElementById("oForm") as HTMLFormElement;
+    formElement.addEventListener("keyup", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        formElement.submit();
+      }
+    });
+
+    var quoteTextAreaElement = document.getElementById("oForm") as HTMLFormElement;
+    quoteTextAreaElement.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        formElement.submit();
+      }
+    });
   }
 
   const handleSubmit = async (event: any) => {
@@ -35,6 +55,7 @@ export default function SidePanelModal({ handleAddOnPage }: any) {
     const { createdNote } = await response.json();
     handleAddOnPage(createdNote);
 
+    handleResetModalFields();
     handleCloseModal();
   };
 
