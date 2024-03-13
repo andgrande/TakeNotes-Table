@@ -55,6 +55,10 @@ export default function Home() {
   const handleShowModal = () => {
     const modal: HTMLDialogElement | null = document.querySelector("#sidePanelModal");
     modal?.showModal();
+    
+    const element = document.getElementById("note-quote") as HTMLInputElement;
+    if (element) element.value = "";
+    element.focus();
   }
   
   return (
