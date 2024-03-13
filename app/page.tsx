@@ -55,7 +55,7 @@ export default function Home() {
   const handleShowModal = () => {
     const modal: HTMLDialogElement | null = document.querySelector("#sidePanelModal");
     modal?.showModal();
-    
+
     const element = document.getElementById("note-quote") as HTMLInputElement;
     if (element) element.value = "";
     element.focus();
@@ -70,10 +70,12 @@ export default function Home() {
           </div>
       </button>
 
-      <div className="flex row items-center">
-        <h1 className={`uppercase font-semibold text-4xl`}>References</h1>
+      <div className="flex flex-row w-full items-center">
+        <div className="flex justify-end w-7/12">
+          <h1 className={`uppercase font-semibold text-4xl`}>References</h1>
+        </div>
 
-        <div className="absolute right-10 text-4xl" >
+        <div className="flex items-center justify-end w-5/12 text-4xl" >
           <button className="hover:text-gray-400 active:text-white transition-all mr-4" onClick={() => handleUpdateNotes()} >
             <TbRefresh />
           </button>

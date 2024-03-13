@@ -72,7 +72,7 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
           >
             {/* <td className="border border-slate-300 px-2 text-center">##</td> */}
             <td id={i.ts.toString()} onClick={() => copyContent(i.data.noteQuote, i.ts.toString())}
-              className="w-1/5 min-w-1/5">
+              className="w-1/5 min-w-1/5 *:hover:overflow-visible hover:w-full">
               <p className="focus:border-sky-500 truncate-after-n-lines">{i.data.noteQuote}</p>
             </td>
             <td id={i.ts.toString() + 'notePage'} onClick={() => copyContent(i.data.notePage, i.ts.toString() + 'notePage')} >{i.data.notePage}</td>

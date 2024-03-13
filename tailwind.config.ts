@@ -28,6 +28,8 @@ const config: Config = {
       height: {
         "116px": "116px",
         "98%": "98%",
+        "90vh": "90vh",
+        "95vh": "95vh",
       },
       animation: {
         "blinking": "blinking 2s",
