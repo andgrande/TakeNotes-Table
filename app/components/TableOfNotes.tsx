@@ -23,6 +23,21 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
     }
   }
 
+  const handleUpdateUseFlag = async (elementId: string, noteId: string) => {
+    try {
+      const element = document.getElementById(elementId) as HTMLInputElement;
+      const inUse: boolean = element.checked;
+
+      const res = await fetch('/api', {
+        method: "PATCH",
+        body: JSON.stringify({ id: noteId, isUsed: inUse })
+      })
+
+    } catch (er) {
+      console.log(er)
+    }
+  }
+
   const copyContent = (fieldValue: string | undefined, id?: string | undefined) => {
     if (fieldValue == undefined || id == undefined) return;
     navigator.clipboard.writeText(fieldValue);
@@ -50,7 +65,7 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
       <table className="table-auto w-full bg-slate-100 border-separate border-spacing-0.25 rounded-lg border-slate-200 text-center">
         <thead >
           <tr >
-            {/* <th className="text-center">ID</th> */}
+            <th className="text-center">Use</th>
             <th className="w-1/5 px-3">Quote</th>
             <th>Page</th>
             <th className="w-2/12">Author</th>
@@ -67,10 +82,16 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
           {notes?.map(i => (
           <tr key={i.id} 
             className="border-2 h-28 max-h-116px border-black rounded-lg truncate-after-n-lines
-            *:border *:border-slate-300 *:px-2 *:h-116px
+            *:border *:border-slate-300 *:px-2 *:h-116px has-[:checked]:bg-green-100 transition
             "
           >
-            {/* <td className="border border-slate-300 px-2 text-center">##</td> */}
+            <td className="border border-slate-300 text-center">
+              <input type="checkbox" id={i.ts.toString() + 'noteUsed'} 
+                defaultChecked={i.data.isUsed ? i.data.isUsed : false} 
+                className="accent-gray-600 h-2/3"
+                onClick={() => handleUpdateUseFlag(i.ts.toString() + 'noteUsed', i.id)}
+              />
+            </td>
             <td id={i.ts.toString()} onClick={() => copyContent(i.data.noteQuote, i.ts.toString())}
               className="w-1/5 min-w-1/5 *:hover:overflow-visible hover:w-full">
               <p className="focus:border-sky-500 truncate-after-n-lines">{i.data.noteQuote}</p>

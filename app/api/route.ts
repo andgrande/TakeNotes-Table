@@ -4,8 +4,14 @@ import { query as q } from 'faunadb';
 import faunadb from 'faunadb';
 
 type InputReq = {
-  id: number
+  id: number,
+  isUsed?: boolean,
 }
+
+let db_in_use = 'myReferences';
+
+const environment = process.env.NODE_ENV;
+if (environment != 'production') db_in_use = 'myTest';  
 
 const faunaClient = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET || "",
@@ -30,7 +36,7 @@ export async function GET() {
     // )
 
     q.Map(
-      q.Paginate(q.Documents(q.Collection('myReferences'))),
+      q.Paginate(q.Documents(q.Collection(`${db_in_use}`))),
       q.Lambda(x => q.Get(x))
     )
   );
@@ -54,7 +60,7 @@ export async function POST(request: Request) {
   try {
     let response: any = await faunaClient.query(
       q.Create(
-        q.Collection('myReferences'),
+        q.Collection(`${db_in_use}`),
         {
           data: {
             ...data
@@ -74,7 +80,6 @@ export async function POST(request: Request) {
   } catch (error) {
     console.log(error)
   }
-  // return Response.json({ response: "siiiim" });
 }
 
 export async function DELETE(request: Request) {
@@ -85,11 +90,33 @@ export async function DELETE(request: Request) {
   let response = await faunaClient.query(
     q.Delete(
       q.Ref(
-        q.Collection('myReferences'),
+        q.Collection(`${db_in_use}`),
         id
       )
     )
   )
+
+  return Response.json({ response });
+}
+
+export async function PATCH(request: Request) {
+  const data: InputReq = await request.json();
+
+  const { id, isUsed } = data;
+
+  let response = await faunaClient.query(
+    q.Update(
+      q.Ref(
+        q.Collection(`${db_in_use}`),
+        id
+      ),
+      {
+        data: {
+          isUsed
+        }
+      }
+    )
+  );
 
   return Response.json({ response });
 }

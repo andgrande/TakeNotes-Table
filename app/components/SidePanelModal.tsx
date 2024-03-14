@@ -45,6 +45,7 @@ export default function SidePanelModal({ handleAddOnPage }: any) {
       notePublisher: event.target?.['note-publisher'].value,
       noteLink: event.target?.['note-link'].value,
       notePaper: event.target?.['note-paper'].value,
+      isUsed: false,
     }
 
     const response = await fetch('/api', {

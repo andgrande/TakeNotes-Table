@@ -8,8 +8,9 @@ export interface IDTOData {
     notePublisher: string,
     noteLink: string,
     notePaper: string
+    isUsed: boolean | undefined;
   },
   id: string,
   ts: number,
-  date: string | undefined
+  date: string | undefined,
 }
