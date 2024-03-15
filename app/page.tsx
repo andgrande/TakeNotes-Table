@@ -92,7 +92,9 @@ export default function Home() {
         // let cite = `${note.data.noteAuthor} (${note.data.noteYear}). ${note.data.noteTitle}. ${note.data.notePublisher}. BREAKLINE `;
         // console.log(note.data.noteTitle)
         // citationString += cite;
-        citationString += `${note.data.noteAuthor} (${note.data.noteYear}). ${note.data.noteTitle}. ${note.data.notePublisher}. BREAKLINE `;
+        citationString += `${note.data.noteAuthor} (${note.data.noteYear}). ${note.data.noteTitle}. ${note.data.notePublisher}.
+        
+`;
         titleMap.set(note.data.noteTitle);
       }
     });
