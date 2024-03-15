@@ -11,7 +11,7 @@ type InputReq = {
 let db_in_use = 'myReferences';
 
 const environment = process.env.NODE_ENV;
-if (environment != 'production') db_in_use = 'myTest';  
+// if (environment != 'production') db_in_use = 'myTest';  
 
 const faunaClient = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET || "",

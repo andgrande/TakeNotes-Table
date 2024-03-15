@@ -4,7 +4,7 @@ import { TbLayersOff, TbTrashX } from "react-icons/tb";
 
 import { TbCopy } from "react-icons/tb";
 
-export default function TableOfNotes({ content, copyReference, handleDeleteFromPage }: any) {
+export default function TableOfNotes({ content, copyReference, handleDeleteFromPage, handleSetInUseFlag }: any) {
   const notes: IDTOData[] | undefined = content;
   let timeout: any;
 
@@ -27,11 +27,12 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
     try {
       const element = document.getElementById(elementId) as HTMLInputElement;
       const inUse: boolean = element.checked;
-
-      const res = await fetch('/api', {
-        method: "PATCH",
-        body: JSON.stringify({ id: noteId, isUsed: inUse })
-      })
+      
+      handleSetInUseFlag(noteId, inUse);
+      // const res = await fetch('/api', {
+      //   method: "PATCH",
+      //   body: JSON.stringify({ id: noteId, isUsed: inUse })
+      // })
 
     } catch (er) {
       console.log(er)

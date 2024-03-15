@@ -15,23 +15,23 @@ export default function SidePanelModal({ handleAddOnPage }: any) {
     element.focus();
   }
 
-  const handleEnterKey = () => {
-    var formElement = document.getElementById("oForm") as HTMLFormElement;
-    formElement.addEventListener("keyup", function(event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        formElement.submit();
-      }
-    });
+  // const handleEnterKey = () => {
+  //   var formElement = document.getElementById("oForm") as HTMLFormElement;
+  //   formElement.addEventListener("keyup", function(event) {
+  //     if (event.key === "Enter") {
+  //       event.preventDefault();
+  //       formElement.submit();
+  //     }
+  //   });
 
-    var quoteTextAreaElement = document.getElementById("oForm") as HTMLFormElement;
-    quoteTextAreaElement.addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        formElement.submit();
-      }
-    });
-  }
+  //   var quoteTextAreaElement = document.getElementById("oForm") as HTMLFormElement;
+  //   quoteTextAreaElement.addEventListener("keydown", function(event) {
+  //     if (event.key === "Enter") {
+  //       event.preventDefault();
+  //       formElement.submit();
+  //     }
+  //   });
+  // }
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();

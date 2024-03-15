@@ -1,3 +1,5 @@
+import { Max } from "faunadb";
+
 export interface IDTOData {
   data: {
     noteQuote: string,
