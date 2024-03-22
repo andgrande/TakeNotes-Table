@@ -105,6 +105,40 @@ export default function Home() {
     setTimeout(() => setToastOpen(false), 3500);
   }
 
+  const handleCopyQuotes = () => {
+
+    // const sorted = [...notes].sort((a: any, b: any) => {
+    //   // const firstName = a.data.noteAuthor.split(' ');
+    //   // const secondName = b.data.noteAuthor.split(' ');
+    //   if (a.charAt(0) < b.charAt(0)) {
+    //     return -1;
+    //   }
+    //   if (a.charAt(0) > b.charAt(0)) {
+    //     return 1;
+    //   }
+    //   return 0;
+    // });
+    // console.log(sorted)
+    let citationString = ``;
+    const titleMap: any = new Map();
+    notes.map(note => {
+      if (note.data.isUsed == true) {
+        // let cite = `${note.data.noteAuthor} (${note.data.noteYear}). ${note.data.noteTitle}. ${note.data.notePublisher}. BREAKLINE `;
+        // console.log(note.data.noteTitle)
+        // citationString += cite;
+        citationString += `${note.data.noteQuote}
+      
+`;
+        // titleMap.set(note.data.noteTitle);
+      }
+    });
+
+    navigator.clipboard.writeText(citationString);
+
+    setToastOpen(true);
+    setTimeout(() => setToastOpen(false), 3500);
+  }
+
   // const handleToggleAll = () => setNotes(notes.map(note => {
   //     note.data.isUsed = true;
   //     return {...note}
@@ -124,7 +158,7 @@ export default function Home() {
           <button className="hover:text-gray-400 h-full active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleGenerateBatchCitations()} >
             Copy Citations
           </button>
-          <button className="hover:text-gray-400 h-full active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleGenerateBatchCitations()} >
+          <button className="hover:text-gray-400 h-full active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleCopyQuotes()} >
             Copy Quotes
           </button>
           {/* <button className="hover:text-gray-400 active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleToggleAll()} >

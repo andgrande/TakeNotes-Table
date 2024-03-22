@@ -8,8 +8,9 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
   const notes: IDTOData[] | undefined = content;
   let timeout: any;
 
-  if (notes == undefined) return;
+  const previousDate = new Date('03/21/2024').getTime() * 1000;
 
+  if (notes == undefined) return;
   const handleDeleteReference = async(id: string) => {
     try {
       const res = await fetch("/api", {
@@ -80,7 +81,9 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
           </tr>
         </thead>
         <tbody className="bg-slate-300">
-          {notes?.map(i => (
+          {notes?.map(i => {
+          if (previousDate > i.ts) return;
+          return (
           <tr key={i.id} 
             className="border-2 h-28 max-h-116px border-black rounded-lg truncate-after-n-lines
             *:border *:border-slate-300 *:px-2 *:h-116px has-[:checked]:bg-green-100 transition
@@ -125,7 +128,8 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
               <TbCopy onClick={() => handleCopyReference(i.data)} className="hover:text-gray-500 active:text-white" aria-label="Click to copy Reference" />
             </td>
           </tr>
-        ))}
+        )}
+        )}
         </tbody>
       </table>
     </div>
