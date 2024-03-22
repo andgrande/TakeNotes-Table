@@ -1,6 +1,6 @@
 'use server'
 import console from 'console';
-import { query as q } from 'faunadb';
+import { Index, query as q } from 'faunadb';
 import faunadb from 'faunadb';
 
 type InputReq = {
@@ -30,17 +30,24 @@ export async function GET() {
   let response: any = await faunaClient.query(
 
     // q.Select('data',
-    //     q.Get(
-    //         q.Documents(q.Collection('myReferences'))
-    //     )
+        // q.Get(
+        //     q.Documents(q.Collection(`${db_in_use}`))
+        // )
     // )
 
     q.Map(
-      q.Paginate(q.Documents(q.Collection(`${db_in_use}`))),
+      q.Paginate(
+        // q.Match(Index(("note_paper_idx"), "3115 Task 2")),
+        q.Documents(q.Collection(`${db_in_use}`)),
+        { size: 150 }
+      ),
       q.Lambda(x => q.Get(x))
     )
   );
 
+  // console.log(response.data.length)
+
+  // const previousDate = new Date('03/21/2024').getTime();
   const enhancedResponse = response.data.map((item: any) => {
     return {
       id: item.ref.id,
@@ -49,6 +56,8 @@ export async function GET() {
       date: transformDate(item.ts),
     }
   })
+
+  // const tempFilteredResponse = [...enhancedResponse.data.filter((item: any) => item.ts > previousDate)]
 
   return Response.json(enhancedResponse)
 }

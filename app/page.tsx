@@ -119,16 +119,19 @@ export default function Home() {
           </div>
       </button>
 
-      <div className="flex flex-row w-full items-center">
-        <div className="flex flex-col space-y-1">
-          <button className="hover:text-gray-400 active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleGenerateBatchCitations()} >
+      <div className="flex flex-row w-full items-center justify-center">
+        <div className="flex flex-row space-y-1 items-center *:p-1">
+          <button className="hover:text-gray-400 h-full active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleGenerateBatchCitations()} >
             Copy Citations
+          </button>
+          <button className="hover:text-gray-400 h-full active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleGenerateBatchCitations()} >
+            Copy Quotes
           </button>
           {/* <button className="hover:text-gray-400 active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleToggleAll()} >
             Select all
           </button> */}
         </div>
-        <div className="flex justify-end w-7/12">
+        <div className="flex justify-end w-5/12">
           <h1 className={`uppercase font-semibold text-4xl`}>References</h1>
         </div>
         
