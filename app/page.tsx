@@ -125,20 +125,20 @@ export default function Home() {
     setTimeout(() => setToastOpen(false), 3500);
   }
 
-  const handleToggleAll = () => {
-    setToggleAllActivated(!toggleAllActivated);
+  // const handleToggleAll = () => {
+  //   setToggleAllActivated(!toggleAllActivated);
 
-    setNotes(notes.map(note => {
-      toggleAllActivated ? note.data.isUsed = true : note.data.isUsed = false;
+  //   setNotes(notes.map(note => {
+  //     toggleAllActivated ? note.data.isUsed = true : note.data.isUsed = false;
       
-      return {...note}
-    }))
+  //     return {...note}
+  //   }))
 
-    for (let i = 0; i < 10; i++) {
-      console.log(notes[i].data.isUsed)
-    }
+  //   for (let i = 0; i < 10; i++) {
+  //     console.log(notes[i].data.isUsed)
+  //   }
     
-  };
+  // };
   
   return (
     <main className="flex min-h-screen flex-col items-center justify-stretch p-10">
