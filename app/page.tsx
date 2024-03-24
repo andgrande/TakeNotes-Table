@@ -10,6 +10,7 @@ export default function Home() {
   const [ notes, setNotes ] = useState<IDTOData[] | []>([]);
   // const [ notesToClipboard, setNotesToClipboard ] = useState<IDTOData[] | []>([]);
   const [ toastOpen , setToastOpen ] = useState<boolean>(false);
+  const [ toggleAllActivated, setToggleAllActivated ] = useState<boolean>(false);
 
   async function handleFetchReferences() {
     const response = await fetch('/api/', {
@@ -22,6 +23,8 @@ export default function Home() {
 
   const handleUpdateNotes = async () => {
     const response = await handleFetchReferences();
+
+    // const previousDate = new Date('03/21/2024').getTime();
     setNotes(response);
   }
 
@@ -89,9 +92,6 @@ export default function Home() {
     const titleMap: any = new Map();
     sorted.map(note => {
       if (note.data.isUsed == true && !titleMap.has(note.data.noteTitle)) {
-        // let cite = `${note.data.noteAuthor} (${note.data.noteYear}). ${note.data.noteTitle}. ${note.data.notePublisher}. BREAKLINE `;
-        // console.log(note.data.noteTitle)
-        // citationString += cite;
         citationString += `${note.data.noteAuthor} (${note.data.noteYear}). ${note.data.noteTitle}. ${note.data.notePublisher}.
         
 `;
@@ -107,25 +107,11 @@ export default function Home() {
 
   const handleCopyQuotes = () => {
 
-    // const sorted = [...notes].sort((a: any, b: any) => {
-    //   // const firstName = a.data.noteAuthor.split(' ');
-    //   // const secondName = b.data.noteAuthor.split(' ');
-    //   if (a.charAt(0) < b.charAt(0)) {
-    //     return -1;
-    //   }
-    //   if (a.charAt(0) > b.charAt(0)) {
-    //     return 1;
-    //   }
-    //   return 0;
-    // });
-    // console.log(sorted)
     let citationString = ``;
     const titleMap: any = new Map();
     notes.map(note => {
       if (note.data.isUsed == true) {
-        // let cite = `${note.data.noteAuthor} (${note.data.noteYear}). ${note.data.noteTitle}. ${note.data.notePublisher}. BREAKLINE `;
-        // console.log(note.data.noteTitle)
-        // citationString += cite;
+
         citationString += `${note.data.noteQuote}
       
 `;
@@ -139,10 +125,20 @@ export default function Home() {
     setTimeout(() => setToastOpen(false), 3500);
   }
 
-  // const handleToggleAll = () => setNotes(notes.map(note => {
-  //     note.data.isUsed = true;
-  //     return {...note}
-  // }));
+  const handleToggleAll = () => {
+    setToggleAllActivated(!toggleAllActivated);
+
+    setNotes(notes.map(note => {
+      toggleAllActivated ? note.data.isUsed = true : note.data.isUsed = false;
+      
+      return {...note}
+    }))
+
+    for (let i = 0; i < 10; i++) {
+      console.log(notes[i].data.isUsed)
+    }
+    
+  };
   
   return (
     <main className="flex min-h-screen flex-col items-center justify-stretch p-10">
@@ -161,9 +157,6 @@ export default function Home() {
           <button className="hover:text-gray-400 h-full active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleCopyQuotes()} >
             Copy Quotes
           </button>
-          {/* <button className="hover:text-gray-400 active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleToggleAll()} >
-            Select all
-          </button> */}
         </div>
         <div className="flex justify-end w-5/12">
           <h1 className={`uppercase font-semibold text-4xl`}>References</h1>
@@ -183,6 +176,13 @@ export default function Home() {
 
       <SidePanelModal handleAddOnPage={handleAddOnPage} />
 
+      {/* <div className="flex flex-row w-full h-8 mt-10 -mb-8">
+        <button className="hover:text-gray-400 bg-slate-50 h-full px-5 rounded-md active:text-white transition-all mr-4 border border-gray-400" 
+          onClick={() => handleToggleAll()} >
+          Select all
+        </button>
+      </div> */}
+      {/* <TableControlBar /> */}
       {
         !!notes 
         ? <TableOfNotes content={notes} copyReference={copyReference} handleDeleteFromPage={handleDeleteFromPage} handleSetInUseFlag={handleSetInUseFlag} />

@@ -92,7 +92,7 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
             <td className="border border-slate-300 text-center">
               <input type="checkbox" id={i.ts.toString() + 'noteUsed'} 
                 defaultChecked={i.data.isUsed ? i.data.isUsed : false} 
-                className="accent-gray-600 h-2/3"
+                className="accent-gray-600 h-full"
                 onClick={() => handleUpdateUseFlag(i.ts.toString() + 'noteUsed', i.id)}
               />
             </td>
