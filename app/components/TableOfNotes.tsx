@@ -82,7 +82,8 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
         </thead>
         <tbody className="bg-slate-300">
           {notes?.map(i => {
-          if (previousDate > i.ts) return;
+          // if (previousDate > i.ts) return;
+          if (i.data.notePaper.charAt(0) != '4') return;
           return (
           <tr key={i.id} 
             className="border-2 h-28 max-h-116px border-black rounded-lg truncate-after-n-lines
