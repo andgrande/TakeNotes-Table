@@ -5,13 +5,15 @@ import TableOfNotes from "./components/TableOfNotes";
 import { IDTOData } from './_lib/dtos/IReferenceDataDTO';
 import { TbCircles, TbRefresh, TbSquareRoundedPlus } from "react-icons/tb";
 import SidePanelModal from "./components/SidePanelModal";
+import TableControlBar from "./components/Table Control/TableControlBar/TableControlBar";
 
 export default function Home() {
   const [ notes, setNotes ] = useState<IDTOData[] | []>([]);
+  const [ filteredNotes, setFilteredNotes ] = useState<IDTOData[] | []>([])
   // const [ notesToClipboard, setNotesToClipboard ] = useState<IDTOData[] | []>([]);
   const [ toastOpen , setToastOpen ] = useState<boolean>(false);
   const [ toggleAllActivated, setToggleAllActivated ] = useState<boolean>(false);
-
+  
   async function handleFetchReferences() {
     const response = await fetch('/api/', {
       method: 'GET',
@@ -23,9 +25,10 @@ export default function Home() {
 
   const handleUpdateNotes = async () => {
     const response = await handleFetchReferences();
-
     // const previousDate = new Date('03/21/2024').getTime();
+
     setNotes(response);
+    setFilteredNotes(response);
   }
 
   useEffect(() => {
@@ -47,6 +50,7 @@ export default function Home() {
 
   const handleDeleteFromPage = (id: string) => {
     setNotes(previousState => previousState?.filter(i => i.id != id))
+    setFilteredNotes(previousState => previousState?.filter(i => i.id != id))
   }
 
   const handleAddOnPage = (newReferenceToScreen: IDTOData) => {
@@ -54,17 +58,21 @@ export default function Home() {
       ...notes,
       {...newReferenceToScreen},
     ]);
+    setFilteredNotes([
+      ...notes,
+      {...newReferenceToScreen},
+    ]);
   }
 
   const handleSetInUseFlag = (id: string, inUse: boolean) => {
-    setNotes(notes.map(note => {
+    setFilteredNotes(filteredNotes.map(note => {
       if (note.id === id) {
         note.data.isUsed = inUse;
         return {...note}
       } else return note;
     }))
-  }
-
+  }   
+  
   const handleShowModal = () => {
     const modal: HTMLDialogElement | null = document.querySelector("#sidePanelModal");
     modal?.showModal();
@@ -76,7 +84,7 @@ export default function Home() {
 
   const handleGenerateBatchCitations = () => {
 
-    const sorted = [...notes].sort((a: any, b: any) => {
+    const sorted = [...filteredNotes].sort((a: any, b: any) => {
       const firstName = a.data.noteAuthor.split(' ');
       const secondName = b.data.noteAuthor.split(' ');
       if (firstName < secondName) {
@@ -98,6 +106,8 @@ export default function Home() {
         titleMap.set(note.data.noteTitle);
       }
     });
+    console.log(titleMap)
+    console.log(notes)
 
     navigator.clipboard.writeText(citationString);
 
@@ -109,7 +119,7 @@ export default function Home() {
 
     let citationString = ``;
     const titleMap: any = new Map();
-    notes.map(note => {
+    filteredNotes.map(note => {
       if (note.data.isUsed == true) {
 
         citationString += `${note.data.noteQuote}
@@ -125,20 +135,55 @@ export default function Home() {
     setTimeout(() => setToastOpen(false), 3500);
   }
 
-  // const handleToggleAll = () => {
-  //   setToggleAllActivated(!toggleAllActivated);
+  // IMPLEMENT HANDLE TOGGLE ALL NOTES
+  const handleToggleAll = () => {
+    setToggleAllActivated(!toggleAllActivated);
 
-  //   setNotes(notes.map(note => {
-  //     toggleAllActivated ? note.data.isUsed = true : note.data.isUsed = false;
-      
-  //     return {...note}
-  //   }))
+    const temporaryNotes = [...filteredNotes].map(note => {
+      toggleAllActivated ? note.data['isUsed'] = true : note.data['isUsed'] = false;
+      return {...note}
+    })
 
-  //   for (let i = 0; i < 10; i++) {
-  //     console.log(notes[i].data.isUsed)
-  //   }
+    setFilteredNotes(temporaryNotes)
+
+    // for (let i = 0; i < 10; i++) {
+    //   console.log(notes[i].data.isUsed)
+    // }
+    console.log(filteredNotes)
     
-  // };
+  };
+
+  const sortDate = (field: string, isSorted?: boolean, isPaperSorted?: boolean) => {
+    let temporaryNotes;
+    if (field == 'date') {
+      temporaryNotes = [...filteredNotes].sort((a, b) => isSorted ? a.ts - b.ts : b.ts - a.ts)
+    }
+    else {
+      temporaryNotes = [...filteredNotes].sort((a, b) => isSorted ? a.data.notePaper.localeCompare(b.data.notePaper) : b.data.notePaper.localeCompare(a.data.notePaper))
+    }
+
+    setFilteredNotes(temporaryNotes)
+  }
+
+  const filterByQuotes = (filter: string) => {
+    if (filter.length < 1) {
+      setFilteredNotes(notes)
+      return;
+    };
+    
+    const temporaryNotes = [...notes].filter(note => note.data.noteQuote.toLowerCase().includes(filter.toLowerCase()))
+    setFilteredNotes(temporaryNotes);
+  }
+
+  const filterByPapers = (filter: string) => {
+    if (filter.length < 1) {
+      setFilteredNotes(notes)
+      return;
+    };
+    
+    const temporaryNotes = [...notes].filter(note => note.data.notePaper.toLowerCase().includes(filter.toLowerCase()))
+    setFilteredNotes(temporaryNotes);
+  }
   
   return (
     <main className="flex min-h-screen flex-col items-center justify-stretch p-10">
@@ -149,16 +194,16 @@ export default function Home() {
           </div>
       </button>
 
-      <div className="flex flex-row w-full items-center justify-center">
-        <div className="flex flex-row space-y-1 items-center *:p-1">
+      <div className="flex flex-row w-full items-center justify-end">
+        {/* <div className="flex flex-row space-y-1 items-center *:p-1">
           <button className="hover:text-gray-400 h-full active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleGenerateBatchCitations()} >
             Copy Citations
           </button>
           <button className="hover:text-gray-400 h-full active:text-white transition-all mr-4 border border-gray-400" onClick={() => handleCopyQuotes()} >
             Copy Quotes
           </button>
-        </div>
-        <div className="flex justify-end w-5/12">
+        </div> */}
+        <div className="flex justify-end w-4/12">
           <h1 className={`uppercase font-semibold text-4xl`}>References</h1>
         </div>
         
@@ -176,16 +221,17 @@ export default function Home() {
 
       <SidePanelModal handleAddOnPage={handleAddOnPage} />
 
-      {/* <div className="flex flex-row w-full h-8 mt-10 -mb-8">
-        <button className="hover:text-gray-400 bg-slate-50 h-full px-5 rounded-md active:text-white transition-all mr-4 border border-gray-400" 
-          onClick={() => handleToggleAll()} >
-          Select all
-        </button>
-      </div> */}
-      {/* <TableControlBar /> */}
+      <TableControlBar 
+        toggleAllActivated
+        handleToggleAll={handleToggleAll} 
+        handleGenerateBatchCitations={handleGenerateBatchCitations} 
+        handleCopyQuotes={handleCopyQuotes}
+        filterByQuotes={filterByQuotes}
+        filterByPapers={filterByPapers}
+      />
       {
-        !!notes 
-        ? <TableOfNotes content={notes} copyReference={copyReference} handleDeleteFromPage={handleDeleteFromPage} handleSetInUseFlag={handleSetInUseFlag} />
+        !!filteredNotes 
+        ? <TableOfNotes content={filteredNotes} copyReference={copyReference} handleDeleteFromPage={handleDeleteFromPage} handleSetInUseFlag={handleSetInUseFlag} sortDate={sortDate} />
         : <div className="flex flex-row w-52 mt-32 text-teal-800 text-lg font-normal items-center justify-between">
             <TbCircles className="animate-spin" />
             <p>Loading references</p>

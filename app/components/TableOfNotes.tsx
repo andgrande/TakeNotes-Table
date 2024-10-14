@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { IDTOData } from '../_lib/dtos/IReferenceDataDTO';
-import { TbLayersOff, TbTrashX } from "react-icons/tb";
+import { TbLayersOff, TbTrashX, TbCopy, TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { useState } from "react";
 
-import { TbCopy } from "react-icons/tb";
-
-export default function TableOfNotes({ content, copyReference, handleDeleteFromPage, handleSetInUseFlag }: any) {
+export default function TableOfNotes({ content, copyReference, handleDeleteFromPage, handleSetInUseFlag, sortDate }: any) {
   const notes: IDTOData[] | undefined = content;
+  const [ isDateSorted, setIsDateSorted ] = useState<boolean>(false)
+  const [ isPaperSorted, setIsPaperSorted ] = useState<boolean>(false)
   let timeout: any;
 
   const previousDate = new Date('03/21/2024').getTime() * 1000;
@@ -55,6 +56,18 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
     copyReference(data)
   }
 
+  const handleSortDate = (field: string) => {
+
+    if (field == 'date') {
+      sortDate(field, isDateSorted)
+      setIsDateSorted(prevState => !prevState)
+    }
+    else if (field == 'paper') {
+      sortDate(field, isPaperSorted)
+      setIsPaperSorted(prevState => !prevState)
+    }
+  }
+
   if (notes?.length == 0) return (
     <div className="flex flex-row w-52 mt-32 text-teal-800 text-lg font-normal items-center justify-evenly">
       <TbLayersOff />
@@ -66,7 +79,7 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
     <div className="w-full mt-10">
       <table className="table-auto w-full bg-slate-100 border-separate border-spacing-0.25 rounded-lg border-slate-200 text-center">
         <thead >
-          <tr >
+          <tr className="*:border" >
             <th className="text-center">Use</th>
             <th className="w-1/5 px-3">Quote</th>
             <th>Page</th>
@@ -75,15 +88,23 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
             <th className="w-1/5">Title</th>
             <th className="w-1/12">Publisher</th>
             <th className="max-w-48">Link</th>
-            <th>Paper</th>
-            <th>Date Added</th>
+            <th onClick={() => handleSortDate('paper')}>
+              <div className="flex items-center justify-evenly">
+                Paper {isPaperSorted ? <TbSortAscending /> : <TbSortDescending />}
+              </div>
+            </th>
+            <th onClick={() => handleSortDate('date')}>
+              <div className="flex items-center justify-evenly">
+                Date {isDateSorted ? <TbSortAscending /> : <TbSortDescending />}
+              </div>
+            </th>
             <th className="italic font-thin text-sm">copy</th>
           </tr>
         </thead>
         <tbody className="bg-slate-300">
           {notes?.map(i => {
           // if (previousDate > i.ts) return;
-          if (i.data.notePaper.charAt(0) != '4') return;
+          // if (i.data.notePaper.charAt(0) != '4') return;
           return (
           <tr key={i.id} 
             className="border-2 h-28 max-h-116px border-black rounded-lg truncate-after-n-lines
@@ -92,7 +113,7 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
           >
             <td className="border border-slate-300 text-center">
               <input type="checkbox" id={i.ts.toString() + 'noteUsed'} 
-                defaultChecked={i.data.isUsed ? i.data.isUsed : false} 
+                defaultChecked={i.data.isUsed ? true : false} 
                 className="accent-gray-600 h-full"
                 onClick={() => handleUpdateUseFlag(i.ts.toString() + 'noteUsed', i.id)}
               />

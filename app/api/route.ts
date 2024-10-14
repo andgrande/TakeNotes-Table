@@ -11,7 +11,7 @@ type InputReq = {
 let db_in_use = 'myReferences';
 
 const environment = process.env.NODE_ENV;
-// if (environment != 'production') db_in_use = 'myTest';  
+if (environment != 'production') db_in_use = 'myTest';
 
 const faunaClient = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET || "",
@@ -23,10 +23,6 @@ const transformDate = (ts: number) => {
 }
 
 export async function GET() {
-  // const document_query = fql`
-  //     myReferences.all()
-  // `;  
-
   let response: any = await faunaClient.query(
 
     // q.Select('data',
@@ -47,7 +43,7 @@ export async function GET() {
 
   // console.log(response.data.length)
 
-  // const previousDate = new Date('03/21/2024').getTime();
+  const previousDate = new Date('10/01/2024').getTime();
   const enhancedResponse = response.data.map((item: any) => {
     return {
       id: item.ref.id,
@@ -58,7 +54,7 @@ export async function GET() {
   })
 
   // const tempFilteredResponse = [...enhancedResponse.data.filter((item: any) => item.ts > previousDate)]
-
+  
   return Response.json(enhancedResponse)
 }
 
