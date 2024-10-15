@@ -228,6 +228,8 @@ export default function Home() {
         handleCopyQuotes={handleCopyQuotes}
         filterByQuotes={filterByQuotes}
         filterByPapers={filterByPapers}
+        filteredCount={filteredNotes.length}
+        totalCount={notes.length}
       />
       {
         !!filteredNotes 
