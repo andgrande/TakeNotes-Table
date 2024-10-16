@@ -64,15 +64,6 @@ export default function Home() {
     ]);
   }
 
-  const handleSetInUseFlag = (id: string, inUse: boolean) => {
-    setFilteredNotes(filteredNotes.map(note => {
-      if (note.id === id) {
-        note.data.isUsed = inUse;
-        return {...note}
-      } else return note;
-    }))
-  }   
-  
   const handleShowModal = () => {
     const modal: HTMLDialogElement | null = document.querySelector("#sidePanelModal");
     modal?.showModal();
@@ -95,7 +86,7 @@ export default function Home() {
       }
       return 0;
     });
-    // console.log(sorted)
+
     let citationString = ``;
     const titleMap: any = new Map();
     sorted.map(note => {
@@ -106,8 +97,6 @@ export default function Home() {
         titleMap.set(note.data.noteTitle);
       }
     });
-    console.log(titleMap)
-    console.log(notes)
 
     navigator.clipboard.writeText(citationString);
 
@@ -135,22 +124,23 @@ export default function Home() {
     setTimeout(() => setToastOpen(false), 3500);
   }
 
+  const handleSetInUseFlag = (id: string, inUse: boolean) => {
+    setFilteredNotes(filteredNotes.map(note => {
+      if (note.id === id) {
+        note.data.isUsed = inUse;
+        return {...note}
+      } else return note;
+    }))
+  }
   // IMPLEMENT HANDLE TOGGLE ALL NOTES
   const handleToggleAll = () => {
-    setToggleAllActivated(!toggleAllActivated);
-
     const temporaryNotes = [...filteredNotes].map(note => {
-      toggleAllActivated ? note.data['isUsed'] = true : note.data['isUsed'] = false;
+      note.data['isUsed'] = !toggleAllActivated;
       return {...note}
     })
 
+    setToggleAllActivated(!toggleAllActivated);
     setFilteredNotes(temporaryNotes)
-
-    // for (let i = 0; i < 10; i++) {
-    //   console.log(notes[i].data.isUsed)
-    // }
-    console.log(filteredNotes)
-    
   };
 
   const sortDate = (field: string, isSorted?: boolean, isPaperSorted?: boolean) => {
@@ -222,7 +212,7 @@ export default function Home() {
       <SidePanelModal handleAddOnPage={handleAddOnPage} />
 
       <TableControlBar 
-        toggleAllActivated
+        toggleAllActivated={toggleAllActivated}
         handleToggleAll={handleToggleAll} 
         handleGenerateBatchCitations={handleGenerateBatchCitations} 
         handleCopyQuotes={handleCopyQuotes}
