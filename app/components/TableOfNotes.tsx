@@ -118,18 +118,19 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
               />
             </td>
             <td id={i.ts.toString()} onClick={() => copyContent(i.data.noteQuote, i.ts.toString())}
-              className="w-1/5 min-w-1/5 *:hover:overflow-visible hover:w-full">
+              className="w-1/5 min-w-1/5 *:hover:overflow-visible hover:w-full"
+              title="Click to copy">
               <p className="focus:border-sky-500 truncate-after-n-lines">{i.data.noteQuote}</p>
             </td>
-            <td id={i.ts.toString() + 'notePage'} onClick={() => copyContent(i.data.notePage, i.ts.toString() + 'notePage')} >{i.data.notePage}</td>
-            <td id={i.ts.toString() + 'noteAuthor'}  onClick={() => copyContent(i.data.noteAuthor, i.ts.toString() + 'noteAuthor')} className=" w-2/12">
+            <td id={i.ts.toString() + 'notePage'} onClick={() => copyContent(i.data.notePage, i.ts.toString() + 'notePage')} title="Click to copy">{i.data.notePage}</td>
+            <td id={i.ts.toString() + 'noteAuthor'}  onClick={() => copyContent(i.data.noteAuthor, i.ts.toString() + 'noteAuthor')} className=" w-2/12" title="Click to copy">
               <p className="truncate-after-n-lines">{i.data.noteAuthor}</p>
             </td> 
-            <td id={i.ts.toString() + 'noteYear'} onClick={() => copyContent(i.data.noteYear, i.ts.toString() + 'noteYear')} >{i.data.noteYear}</td>
-            <td id={i.ts.toString() + 'noteTitle'} onClick={() => copyContent(i.data.noteTitle, i.ts.toString() + 'noteTitle')} className=" w-1/5 h-116px *:hover:overflow-visible">
+            <td id={i.ts.toString() + 'noteYear'} onClick={() => copyContent(i.data.noteYear, i.ts.toString() + 'noteYear')} title="Click to copy">{i.data.noteYear}</td>
+            <td id={i.ts.toString() + 'noteTitle'} onClick={() => copyContent(i.data.noteTitle, i.ts.toString() + 'noteTitle')} className=" w-1/5 h-116px *:hover:overflow-visible" title="Click to copy">
               <p className="truncate-after-n-lines">{i.data.noteTitle}</p>
             </td>
-            <td id={i.ts.toString() + 'notePublisher'} onClick={() => copyContent(i.data.notePublisher, i.ts.toString() + 'notePublisher')} className=" max-w-1/12 *:hover:overflow-visible ">
+            <td id={i.ts.toString() + 'notePublisher'} onClick={() => copyContent(i.data.notePublisher, i.ts.toString() + 'notePublisher')} className=" max-w-1/12 *:hover:overflow-visible " title="Click to copy">
               <p className="truncate-after-n-lines">
                 {i.data.notePublisher}
               </p>
@@ -142,11 +143,24 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
                 <p className="truncate-after-n-lines">{i.data.noteLink}</p>
               </Link>
             </td>
-            <td id={i.ts.toString() + 'notePaper'} onClick={() => copyContent(i.data.notePaper, i.ts.toString() + 'notePaper')} >{i.data.notePaper}</td>
-            <td id={i.ts.toString() + 'date'} onClick={() => copyContent(i.date, i.ts.toString() + 'date')} >{i.date}</td>
+            <td id={i.ts.toString() + 'notePaper'} onClick={() => copyContent(i.data.notePaper, i.ts.toString() + 'notePaper')} title="Click to copy">
+              {i.data.notePaper}
+            </td>
+            <td id={i.ts.toString() + 'date'} onClick={() => copyContent(i.date, i.ts.toString() + 'date')} title="Click to copy">
+              {i.date}
+            </td>
             <td className="flex flex-col justify-center items-center space-y-5 *:size-6  *:transition-all">
-              <TbTrashX onDoubleClick={() => handleDeleteReference(i.id)} className="hover:text-gray-500 active:text-white" aria-label="Double-click to delete" />
-              <TbCopy onClick={() => handleCopyReference(i.data)} className="hover:text-gray-500 active:text-white" aria-label="Click to copy Reference" />
+              <TbTrashX 
+                onDoubleClick={() => handleDeleteReference(i.id)} 
+                className="hover:text-gray-500 active:text-white" 
+                title="Double-click to delete"
+                aria-label="Double-click to delete" 
+              />
+              <TbCopy 
+                onClick={() => handleCopyReference(i.data)} 
+                className="hover:text-gray-500 active:text-white" 
+                title="Click to copy Reference"
+                aria-label="Click to copy Reference" />
             </td>
           </tr>
         )}

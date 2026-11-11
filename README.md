@@ -27,3 +27,12 @@ Notes are stored in Firestore (collection `notes`), shared with the TakeNotes ex
 3. Security rules and indexes live in the extension repo (`app/firestore.rules`, `app/firestore.indexes.json`). Publish them: `firebase deploy --only firestore:rules,firestore:indexes`.
 
 Data access: `app/_lib/repositories/notesRepository.ts`. Auth: `app/_lib/auth/`. Tests: `npm test`.
+
+### Adding users (invite-only)
+
+Sign-up is intentionally not exposed. To give someone access:
+
+1. Firebase console > Authentication > Users > **Add user** (email + temporary password), and share the credentials privately.
+2. They sign in with that account. Each user only sees and edits notes whose `userId` is their own uid (enforced by `firestore.rules`).
+3. Keep open sign-up disabled in Authentication > Settings > User actions.
+4. To reset a password: Authentication > Users > ⋯ > **Reset password**.
