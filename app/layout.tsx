@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { inter, karla } from './fonts';
 import "./globals.css";
 import Loading from './loading';
+import { AuthProvider } from './_lib/auth/AuthProvider';
+import AuthGate from './components/AuthGate';
 
 export const metadata: Metadata = {
   title: "My References",
@@ -18,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} ${karla.className}`}>
         {/* <Suspense fallback={<Loading />}>{children}</Suspense> */}
-        {children}
+        <AuthProvider>
+          <AuthGate>{children}</AuthGate>
+        </AuthProvider>
       </body>
     </html>
   );

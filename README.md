@@ -17,3 +17,13 @@
 [] ⁠create archive?
 [] ⁠layout to support multi selection to move Notes to folders
 [] ⁠change structure to allow editing notes
+
+## Firebase setup (Firestore + Authentication)
+
+Notes are stored in Firestore (collection `notes`), shared with the TakeNotes extension. Fauna was discontinued; the old API route is kept in `legacy/fauna/` and is not part of the build.
+
+1. Use the same Firebase project as the extension. Enable **Email/Password** in Authentication and create users manually (sign-up is not exposed in the app).
+2. Copy `.env.example` to `.env.local` and fill in the Web app config. On Vercel, add the same `NEXT_PUBLIC_FIREBASE_*` variables under Settings > Environment Variables **before** building (values are inlined at build time).
+3. Security rules and indexes live in the extension repo (`app/firestore.rules`, `app/firestore.indexes.json`). Publish them: `firebase deploy --only firestore:rules,firestore:indexes`.
+
+Data access: `app/_lib/repositories/notesRepository.ts`. Auth: `app/_lib/auth/`. Tests: `npm test`.

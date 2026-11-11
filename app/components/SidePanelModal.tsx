@@ -1,6 +1,7 @@
 import { TbRefresh, TbX } from "react-icons/tb";
 import InputField from "./modalComponents/InputField";
 import TextAreaField from "./modalComponents/TextAreaField";
+import { createNote } from "../_lib/repositories/notesRepository";
 
 export default function SidePanelModal({ handleAddOnPage }: any) {
 
@@ -48,16 +49,16 @@ export default function SidePanelModal({ handleAddOnPage }: any) {
       isUsed: false,
     }
 
-    const response = await fetch('/api', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+    try {
+      const createdNote = await createNote(data);
+      handleAddOnPage(createdNote);
 
-    const { createdNote } = await response.json();
-    handleAddOnPage(createdNote);
-
-    handleResetModalFields();
-    handleCloseModal();
+      handleResetModalFields();
+      handleCloseModal();
+    } catch (error) {
+      console.log(error);
+      alert("Could not save the note.");
+    }
   };
 
   return (

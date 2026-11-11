@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import TableOfNotes from "./components/TableOfNotes";
 import { IDTOData } from './_lib/dtos/IReferenceDataDTO';
-import { TbCircles, TbRefresh, TbSquareRoundedPlus } from "react-icons/tb";
+import { TbCircles, TbLogout, TbRefresh, TbSquareRoundedPlus } from "react-icons/tb";
 import SidePanelModal from "./components/SidePanelModal";
 import TableControlBar from "./components/Table Control/TableControlBar/TableControlBar";
+import { listNotes } from './_lib/repositories/notesRepository';
+import { logOut } from './_lib/auth/authService';
 
 export default function Home() {
   const [ notes, setNotes ] = useState<IDTOData[] | []>([]);
@@ -15,12 +17,7 @@ export default function Home() {
   const [ toggleAllActivated, setToggleAllActivated ] = useState<boolean>(false);
   
   async function handleFetchReferences() {
-    const response = await fetch('/api/', {
-      method: 'GET',
-      cache: 'no-store',
-    })
-
-    return response.json();
+    return listNotes();
   }
 
   const handleUpdateNotes = async () => {
@@ -202,8 +199,12 @@ export default function Home() {
             <TbRefresh />
           </button>
 
-          <button className="hover:text-gray-400 active:text-white transition-all" onClick={() => handleShowModal()} >
+          <button className="hover:text-gray-400 active:text-white transition-all mr-4" onClick={() => handleShowModal()} >
             <TbSquareRoundedPlus />
+          </button>
+
+          <button className="hover:text-gray-400 active:text-white transition-all" onClick={() => logOut()} title="Sign out" >
+            <TbLogout />
           </button>
         </div>
         

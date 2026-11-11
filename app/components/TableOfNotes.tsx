@@ -2,6 +2,7 @@ import Link from "next/link";
 import { IDTOData } from '../_lib/dtos/IReferenceDataDTO';
 import { TbLayersOff, TbTrashX, TbCopy, TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { useState } from "react";
+import { deleteNote } from "../_lib/repositories/notesRepository";
 
 export default function TableOfNotes({ content, copyReference, handleDeleteFromPage, handleSetInUseFlag, sortDate }: any) {
   const notes: IDTOData[] | undefined = content;
@@ -14,10 +15,7 @@ export default function TableOfNotes({ content, copyReference, handleDeleteFromP
   if (notes == undefined) return;
   const handleDeleteReference = async(id: string) => {
     try {
-      const res = await fetch("/api", {
-        method: "DELETE",
-        body: JSON.stringify({ id })
-      })
+      await deleteNote(id);
 
       handleDeleteFromPage(id)
     } catch (er) {
